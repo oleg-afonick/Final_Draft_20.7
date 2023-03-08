@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+
+{% block content %}
+
+<h2 style="margin-top: 40px"><span style="color: #1616f6;">Удаляем объявление</span></h2>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    <p><h4>После подтверждения объявление:</h4>
+        <h5><span style="color: #1616f6;"><i>"{{ object.post_title }}"</i></span></h5>
+    <p><h4><span style="color: orangered;">будет удалено</span></h4>
+    <br>
+    <input class="btn btn-danger btn-sm " type="submit" value="Удалить"/>&emsp;&emsp;<a href="{% url 'post_detail' object.id %}" class="btn btn-primary btn-sm">Отмена</a>
+</form>
+{% endblock content %}

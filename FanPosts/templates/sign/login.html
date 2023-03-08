@@ -1,0 +1,58 @@
+{% extends "default.html" %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+<script href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="logo">
+            <img src="https://fogsoft.com/wp-content/uploads/2017/07/user-logo.png" alt="">
+        </div>
+        <div class="text-center mt-4 name">
+            Вход
+        </div>
+        <form class="p-3 mt-3" method="post">
+            {% csrf_token %}
+            <div class="form-field d-flex align-items-center">
+                <span class="fa fa-user"></span>
+                <label for="username"></label><input autocomplete="off" type="text" name="username" id="username" placeholder="Имя или Email">
+            </div>
+            <div class="form-field d-flex align-items-center">
+                <span class="fas fa-key"></span>
+                <label for="pwd"></label><input autocomplete="off" type="password" name="password" id="pwd" placeholder="Пароль">
+            </div>
+            {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                        <small>{{ error|escape }}</small>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                        <small>{{ error|escape }}</small>
+                        </div>
+                    {% endfor %}
+            {% endif %}
+            <button class="btn">Войти</button>
+        </form>
+        <div class="text-center fs-6">
+            <a style="font-size: 16px; " href="/accounts/password/reset/">Забыли пароль?</a> &ensp; <a style="font-size: 16px; " href='{% url "signup" %}'>Регистрация</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+
+
+

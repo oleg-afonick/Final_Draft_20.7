@@ -1,0 +1,79 @@
+{% extends 'default.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load spurl %}
+{% block title %}
+Отклики
+{% endblock title %}
+{% block content %}
+<h2 style="margin-top: 20px">Все отклики на ваши объявления</h2>
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+        <form method="GET">
+        {{ filter.form|crispy }}
+        <input class="btn btn-primary btn-sm" style="margin-top: 10px" type="submit" value="Применить фильтр">
+    </form>
+        </div>
+    </div>
+</div>
+{% if filter.qs %}
+{% for repl in filter.qs %}
+<div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+    <table width="100%" border="0">
+        <tr>
+            <td align="right">
+                <font size="4">
+                {% if repl.reply_accept %}
+                <span class="icon"><i class="fa fa-check"></i></span>&ensp;<i><span style="color: forestgreen;">Принят</span></i>
+                {% else %}
+                <span class="icon"><i class="fa fa-clock-o"></i></span>&ensp;<i><span style="color: orangered;">На рассмотрении</span></i>
+                {% endif %}
+                </font>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 1350px;" width="100%" border="0">
+    <tr>
+        <td align="justify">
+            <font size="3">
+                <span class="icon">
+                    <i class="fa fa-user"></i></span>&ensp;
+                <i><a href="{% url 'profile_detail' repl.user.id %}" style="text-decoration: none;">{{ repl.user }}</a></i>&emsp;
+                <br>
+                <span class="icon">
+                    <i class="fa fa-calendar"></i></span>&ensp;<i>{{ repl.date_creation }}</i>
+                <br>
+                <span class="icon"><i class="fa fa-flag"></i></span>&ensp;<i><a href="{% url 'category_list' repl.get_category.id %}" style="text-decoration: none;">{{ repl.get_category }}</a></i>
+                <br><br>
+                <font size="4">
+                <span class="icon"><i class="fa fa-comment"></i></span>&ensp;<span style="color: black;"><i>
+                <a href="{% url 'post_reply_detail' repl.id %}" style="text-decoration: none;">
+                {{ repl.reply_text}}</a></i></span>
+                 </font>
+                <br><br>
+            {% if not repl.reply_accept %}
+            <a href="{% url 'reply_accept' repl.id %}" class="btn btn btn-success btn-sm"><span class="icon"><i class="fa fa-check-square-o"></i></span>&nbsp;Принять отклик</a>
+            <a href="{% url 'reply_delete' repl.id %}" class="btn btn btn-danger btn-sm"><span class="icon"><i class="fa fa-trash-o"></i></span>&nbsp;Удалить отклик</a>
+            {% endif %}
+            </font>
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0">
+    <tr>
+        <td align="right">
+            <font size="4">
+        <span class="icon"><i class="fa fa-info-circle"></i></span>&nbsp;
+            <i><a href="{% url 'post_reply_detail' repl.id %}" style="text-decoration: none;">Детали</a></i>
+            </font>
+        </td>
+    </tr>
+</table>
+</div>
+{% endfor %}
+{% else %}
+<h3 style="margin-top: 50px">Пока нет ни одного отклика!</h3>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends "default.html" %}
+
+{% block content %}
+  <p><h3><span style="color: orangered;">Недостаточно прав!</span></h3>
+<p></p>
+<h6>Отклик на объявление может удалить только автор объявления!</h6>
+<p></p>
+<div><a href="{% url 'post_reply_detail' reply.id %}" class="btn btn btn-outline-primary btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;Вернуться к отклику</a></div>
+{% endblock %}

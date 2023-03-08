@@ -1,0 +1,96 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Объявления в категории
+{% endblock title %}
+{% load static %}
+{% block content %}
+<nav class="fixed-top" style="background-color: #ecf0f3; margin-top: 56px">
+{% for cat in categories %}
+<a style="margin-top: 10px" class="btn btn-dark btn-sm" href="{% url 'category_list' cat.id %}">{{ cat }}</a>
+{% endfor %}
+</nav>
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h3 style="margin-top: 50px">Все объявления в категории <span style="color: orangered;">"{{ category }}"</span></h3>
+
+<h5>Всего: <span style="color: orangered;">{{ page_obj.paginator.count }}</span></h5>
+{% if is_not_subscriber %}
+<i class="text-center">Подпишитесь, и вы будете получать уведомления о новых объявлениях в этой категории</i>
+    <br>
+<p></p>
+    <a href="{% url 'subscribe' category.id %}" class="btn btn-outline-primary btn-sm"><span class="icon"><i class="fa fa-plus-square"></i></span>&nbsp;Подписаться</a>
+<p></p>
+{% endif %}
+{% if is_subscriber %}
+<i class="text-center">Вы подписаны и будете получать уведомления о новых объявлениях в этой категории</i>
+    <br>
+<p></p>
+    <a href="{% url 'unsubscribe' category.id %}" class="btn btn-outline-primary btn-sm"><span class="icon"><i class="fa fa-minus-square"></i></span>&nbsp;Отписаться</a>
+<p></p>
+{% endif %}
+{% if category_posts_list %}
+{% for post in category_posts_list %}
+    <div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+        <font size="4">
+<i>Объявление № <span style="color: orangered;">{{ post.pk }}</span></i>
+</font>
+<table style="width: 1420px;" width="100%" border="0">
+    <tr>
+        <td align="justify">
+            <font size="3">
+                <span class="icon"><i class="fa fa-user"></i></span>&ensp;
+                <i><a href="#" style="text-decoration: none;">{{ post.author }}</a></i>
+            <br>
+            <span class="icon"><i class="fa fa-calendar"></i></span>&ensp;<i>{{ post.date_creation }}</i>
+            <br>
+            <span class="icon"><i class="fa fa-flag"></i></span>&nbsp;
+
+            <a href="{% url 'category_list' category.id %}" style="text-decoration: none;">"{{ category }}"</a>
+            <br>
+                <span style="color: green;"><span class="icon"><i class="fa fa-file-text"></i></span>&ensp;<i>{{ post.post_title }}</i></span>
+             <br>
+            </font>
+            <br>
+        <font size="4">
+            <span style="color: brown;"><span class="icon"><i class="fa fa-align-left"></i></span>&ensp;<i>{{ post.post_content|safe }}</i></span>
+        </font>
+
+        </td>
+    </tr>
+</table>
+<font size="4">
+    <table width="100%" border="0">
+    <tr>
+        <td align="right">
+            <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none;">
+            <span class="icon"><i class="fa fa-book"></i></span>&nbsp;<i>Подробно</i></a>
+        </td>
+    </tr>
+</table>
+    </font>
+        </div>
+<p></p>
+{% endfor %}
+{% else %}
+<h2>Объявлений нет!</h2>
+{% endif %}
+{% if paginator.num_pages > 1 %}
+{% if page_obj.has_previous %}
+<a href="?page=1">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock content %}

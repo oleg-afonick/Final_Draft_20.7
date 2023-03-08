@@ -1,0 +1,123 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Post Replies
+{% endblock title %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h3 style="margin-top: 20px">Все отклики на объявление № <span style="color: orangered;">{{ post.id }}</span></h3>
+<h5>Всего откликов: <span style="color: orangered;">{{ replies_post.count }}</span></h5>
+<table width="100%" border="0" style="margin-top: 20px">
+    <tr>
+        <td align="left">
+            <font size="4"><span class="icon"><i class="fa fa-user"></i></span>&nbsp;
+                <i><a href="{% url 'profile_detail' post.author.id %}" style="text-decoration: none;">{{ post.author }}</a></i>
+            &emsp;<span class="icon"><i class="fa fa-calendar"></i></span>&ensp;<i>{{ post.date_creation }}</i>
+            &emsp;<span class="icon"><i class="fa fa-flag"></i></span>&nbsp;
+            <a href="{% url 'category_list' post.post_category.id %}" style="text-decoration: none;">"{{ post.post_category }}"</a>
+            <br>
+            <span style="color: green;"><span class="icon"><i class="fa fa-file-text"></i></span>&ensp;<i>{{ post.post_title }}</i></span>
+            <br>
+            <span style="color: brown;"><span class="icon"><i class="fa fa-align-left"></i></span>&ensp;<i>{{ post.post_content|safe }}</i></span>
+            </font>
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0" style="margin-top: 20px">
+    <tr>
+        <td align="justify">
+            <font size="4">
+            <a href="{% url 'post_list' %}" class="btn btn btn-outline-primary btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлениям</a>&emsp;
+            <a href="{% url 'post_detail' post.id %}" class="btn btn btn-outline-success btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлению № {{ post.id }}</a>&emsp;
+            <a href="{% url 'reply_create' post.id %}" class="btn btn btn-outline-danger btn-sm">
+                <span class="icon"><i class="fa fa-comment-o"></i></span>&nbsp;Создать отклик</a>&emsp;
+            </font>
+        </td>
+    </tr>
+</table>
+<br>
+{% if replies_post %}
+<h5><i>Список откликов:</i></h5>
+
+{% for reply in replies_post %}
+<div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+<ul>
+    <table width="100%" border="0">
+        <tr>
+            <td align="right">
+                <font size="4">
+                {% if reply.reply_accept %}
+                <span class="icon"><i class="fa fa-check"></i></span>&ensp;<i><span style="color: forestgreen;">Принят</span></i>
+                {% else %}
+                <span class="icon"><i class="fa fa-clock-o"></i></span>&ensp;<i><span style="color: orangered;">На рассмотрении</span></i>
+                {% endif %}
+                </font>
+            </td>
+        </tr>
+    </table>
+<table style="width: 1350px;" width="100%" border="0">
+    <tr>
+        <td align="justify">
+            <font size="3">
+                <span class="icon">
+                    <i class="fa fa-user"></i></span>&ensp;
+                <i><a href="{% url 'profile_detail' reply.user.id %}" style="text-decoration: none;">{{ reply.user }}</a></i>&emsp;
+                <span class="icon">
+                    <i class="fa fa-calendar"></i></span>&ensp;<i>{{ reply.date_creation }}</i>
+                <br>
+            </font>
+            <br>
+            {% if reply.reply_accept or reply.user == request.user or post.author == request.user %}
+            <font size="4">
+            <span class="icon"><i class="fa fa-comment"></i></span>&ensp;<span style="color: black;"><i>{{ reply.reply_text }}</i></span>
+        </font>
+            {% else %}
+        <font size="4">
+            <span style="color: orangered;"><span class="icon"><i class="fa fa-ban"></i></span>&ensp;
+                <i>В текущем статусе содержание доступно только автору объявления и автору отклика</i></span>
+        </font>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0">
+    <tr>
+        <td align="right">
+    <font size="4">
+        <span class="icon"><i class="fa fa-info-circle"></i></span>&nbsp;
+            <i><a href="{% url 'post_reply_detail' reply.id %}" style="text-decoration: none;">Детали</a></i>
+    </font>
+        </td>
+    </tr>
+</table>
+    </ul>
+        </div>
+{% endfor %}
+{% else %}
+<h4>Откликов еще нет!</h4>
+<h5>Оставьте первый <a href="{% url 'reply_create' post.id %}">отклик</a> на объявление</h5>
+{% endif %}
+{% if paginator.num_pages > 1 %}
+{% if page_obj.has_previous %}
+<a href="?page=1">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock content %}

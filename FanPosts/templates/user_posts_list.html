@@ -1,0 +1,71 @@
+{% extends 'default.html' %}
+{% block title %}
+Ads
+{% endblock title %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h3 style="margin-top: 20px">Все объявления пользователя <span style="color: orangered;">{{ user }}</span></h3>
+<h5>Всего объявлений: <span style="color: orangered;">{{ page_obj.paginator.count }}</span></h5>
+
+{% if user_posts_list %}
+{% for post in user_posts_list %}
+    <div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+<table style="width: 1420px;" width="100%" border="0">
+    <tr>
+        <td align="justify">
+            <font size="3"><span class="icon"><i class="fa fa-user"></i></span>&ensp;
+            <i><a href="{% url 'profile_detail' post.author.id %}" style="text-decoration: none;">{{ post.author }}</a></i>
+            <br>
+            <span class="icon"><i class="fa fa-calendar"></i></span>&ensp;<i>{{ post.date_creation }}</i>
+            <br>
+            <span class="icon"><i class="fa fa-flag"></i></span>&nbsp;
+            <a href="{% url 'category_list' post.post_category.id %}" style="text-decoration: none;">"{{ post.post_category }}"</a>
+            <br>
+                <span style="color: green;"><span class="icon"><i class="fa fa-file-text"></i></span>&ensp;<i>{{ post.post_title }}</i></span>
+             <br>
+            </font>
+            <br>
+        <font size="4">
+            <span style="color: brown;"><span class="icon"><i class="fa fa-align-left"></i></span>&ensp;<i>{{ post.post_content|safe }}</i></span>
+        </font>
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0">
+    <tr>
+        <td align="right">
+    <font size="4">
+        <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none;">
+        <span class="icon"><i class="fa fa-book"></i></span>&nbsp;<i>Подробно</i></a>
+    </font>
+        </td>
+    </tr>
+</table>
+        </div>
+<p></p>
+{% endfor %}
+{% else %}
+<h2>Публикаций нет!</h2>
+{% endif %}
+{% if paginator.num_pages > 1 %}
+{% if page_obj.has_previous %}
+<a href="?page=1">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% endblock content %}

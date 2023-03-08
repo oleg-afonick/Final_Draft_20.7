@@ -1,0 +1,10 @@
+{% extends "default.html" %}
+
+{% block content %}
+  <p><h3><span style="color: orangered;">Доступ закрыт!</span></h3>
+<p></p>
+<h5>Вы не можете редактировать или удалять объявления других пользователей</h5>
+<p></p>
+<div><a href="{% url 'post_detail' post_id %}" class="btn btn btn-outline-primary btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;Вернуться к объявлению</a></div>
+{% endblock %}

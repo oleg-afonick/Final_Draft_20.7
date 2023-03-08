@@ -1,0 +1,75 @@
+{% extends 'default.html' %}
+{% load static %}
+{% block title %}
+Объявление
+{% endblock title %}
+{% block content %}
+<nav class="fixed-top" style="background-color: #ecf0f3; margin-top: 56px">
+{% for cat in categories %}
+<a style="margin-top: 10px" class="btn btn-dark btn-sm" href="{% url 'category_list' cat.id %}">{{ cat }}</a>
+{% endfor %}
+</nav>
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h3 style="margin-top: 60px">Объявление №<span style="color: #1616f6;"> {{ post.pk }}</span></h3>
+
+<table width="100%" border="0" style="margin-top: 40px">
+    <tr>
+        <td align="justify">
+            <font size="4"><span class="icon"><i class="fa fa-user"></i></span>&ensp;<i><a href="{% url 'profile_detail' post.author.id %}" style="text-decoration: none;">{{ post.author }}</a></i>
+            <br>
+             <span class="icon"><i class="fa fa-calendar"></i></span>&ensp;<i>{{ post.date_creation }}</i>
+            <br>
+            <span class="icon"><i class="fa fa-flag"></i></span>&nbsp;
+            <a href="{% url 'category_list' post.post_category.id %}" style="text-decoration: none;">"{{ post.post_category }}"</a>
+            <br>
+                <span style="color: green;"><span class="icon"><i class="fa fa-file-text"></i></span>&ensp;<i>{{ post.post_title }}</i></span>
+            </font>
+            <br><br>
+            <a href="{% url 'post_list' %}" class="btn btn btn-outline-primary btn-sm"><span class="icon"><i class="fa fa-undo"></i></span>&nbsp;Все объявления</a>&emsp;&emsp;
+            <a href="{% url 'user_posts_list' post.author.id %}" class="btn btn btn-outline-success btn-sm"><span class="icon"><i class="fa fa-file-text-o"></i></span>&nbsp;Все объявления автора</a>&emsp;&emsp;
+        </td>
+    </tr>
+</table>
+<br>
+<table width="100%" border="0">
+    <tr>
+        <td align="center">
+            <i><font size="5">
+            Содержание:
+            </font></i>
+
+            <br>
+        </td>
+    </tr>
+</table>
+<div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+<table>
+    <tr>
+        <td align="justify">
+            <i><font size="4">
+                &emsp;&emsp;<span style="color: brown;">{{ post.post_content|safe }}</span>
+            </font></i>
+        </td>
+    </tr>
+</table>
+</div>
+<br>
+
+<table width="100%" border="0">
+    <tr>
+        <td align="left">
+
+            {% if post.author == request.user %}
+            <a href="{% url 'post_edit' post.pk %}" class="btn btn btn-success btn-sm"><span class="icon"><i class="fa fa-pencil-square-o"></i></span>&nbsp;Редактировать</a>
+            <a href="{% url 'post_delete' post.pk %}" class="btn btn btn-danger btn-sm"><span class="icon"><i class="fa fa-trash-o"></i></span>&nbsp;Удалить</a>&emsp;
+            {% endif %}
+
+        <a href="{% url 'reply_create' post.pk %}" class="btn btn btn-info btn-sm"><span class="icon"><i class="fa fa-comment-o"></i></span>&nbsp;Создать отклик</a>&emsp;
+        <a href="{% url 'post_replies_list' post.pk %}" class="btn btn btn-warning btn-sm"><span class="icon"><i class="fa fa-comments-o"></i></span>&nbsp;Все отклики ({{ replies.count }})</a>
+        </td>
+    </tr>
+</table>
+<br>
+<br>
+{% endblock content %}
+

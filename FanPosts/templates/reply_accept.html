@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+{% load static %}
+
+
+{% block title %}
+Принять
+{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<table style="margin-top: 60px; margin-left: 510px">
+    <tr>
+        <td align="center" class="class=m-b-0 font-medium btn-rounded">
+            <h5 style="margin-top: 10px">Вы приняли <a href="{% url 'post_reply_detail' reply.id %}" style="text-decoration: none;">отклик</a>,</h5>
+<h5>оставленный на ваше <a href="{% url 'post_detail' post.id %}" style="text-decoration: none;">объявление</a></h5>
+<h5>пользователем <a href="" style="text-decoration: none;">{{ user }}</a></h5>
+        </td>
+    </tr>
+</table>
+<div style="margin-top: 20px"><a href="{% url 'post_reply_detail' reply.id %}" class="btn btn btn-outline-primary btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;Назад к отклику</a></div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "default.html" %}
+{% block title %}
+<title>Удаление аккаунта</title>
+{% endblock title %}
+{% block content %}
+    <h3 style="margin-top: 40px"><span style="color: orangered;">Вы уверены, что хотите удалить свой аккаунт?</span></h3>
+    <h5 style="margin-top: 20px">После подтверждения ваш аккаунт будет удален и восстановить его будет невозможно!</h5>
+    <div style="margin-top: 30px">
+    <form method="POST">
+        {% csrf_token %}
+        <input style="margin-right: 20px" class="btn btn-success btn-sm" type="button" onclick="history.back();" value="Отмена"/>
+        <input class="btn btn-danger btn-sm" type="submit" value="Подтвердить">
+    </form>
+    </div>
+{% endblock content %}

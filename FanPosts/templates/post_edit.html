@@ -1,0 +1,20 @@
+{% extends 'default.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<h2 style="margin-top: 40px"><span style="color: #1616f6;">Редактируем объявление</span></h2>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-lg-auto text-center">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                <br>
+                <input class="btn btn-primary btn-sm" type="submit" value="Сохранить"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

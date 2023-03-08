@@ -1,0 +1,14 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{% load static %}
+Homepage
+{% endblock title %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h1 style="margin-top: 20px"><i>Доска объявлений!</i></h1>
+<img src="https://lms.skillfactory.ru/assets/courseware/v1/6dd783a5caf346ea6b025a4db2de76df/asset-v1:SkillFactory+PDEV+2021+type@asset+block/FPW_D.2_project.svg"
+     width="800" height="800">
+{% endblock content %}

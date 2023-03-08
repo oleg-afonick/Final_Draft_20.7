@@ -1,0 +1,82 @@
+{% extends 'default.html' %}
+{% load static %}
+
+{% block title %}
+Post Reply
+{% endblock title %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+<h2 style="margin-top: 20px">Отклик пользователя <span style="color: orangered;">{{ reply.user }}</span></h2>
+<h5>на объявление № <span style="color: orangered;">{{ post.id }}</span></h5>
+<table width="100%" border="0" style="margin-top: 20px">
+    <tr>
+        <td align="left">
+            <font size="3"><span class="icon"><i class="fa fa-user"></i></span>&ensp;
+                <i><a href="#" style="text-decoration: none;">{{ post.author }}</a></i>
+            &emsp;<span class="icon"><i class="fa fa-calendar"></i></span>&ensp;<i>{{ post.date_creation }}</i>
+            &emsp;<span class="icon"><i class="fa fa-flag"></i></span>&nbsp;
+            <a href="{% url 'category_list' post.post_category.id %}" style="text-decoration: none;">"{{ post.post_category }}"</a>
+            <br>
+            <span style="color: green;"><span class="icon"><i class="fa fa-file-text"></i></span>&ensp;<i>{{ post.post_title }}</i></span>
+            <br>
+            <span style="color: brown;"><span class="icon"><i class="fa fa-align-left"></i></span>&ensp;<i>{{ post.post_content|safe }}</i></span>
+            </font>
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0" style="margin-top: 20px">
+    <tr>
+        <td align="left">
+            <font size="3">
+            <a href="{% url 'post_list' %}" class="btn btn btn-outline-primary btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлениям</a>&emsp;
+            <a href="{% url 'post_detail' post.id %}" class="btn btn btn-outline-success btn-sm">
+                <span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлению № {{ post.id }}</a>&emsp;
+            </font>
+        </td>
+    </tr>
+</table>
+<br>
+    <font size="4">
+        <span style="color: black;"><span class="icon"><i class="fa fa-comment"></i></span>&ensp;Текст отклика:</span>
+    </font>
+<div class="class=m-b-0 font-medium btn-rounded" style="margin-top: 20px">
+<ul>
+<table width="100%" border="0">
+        <tr>
+            <td align="right">
+                <font size="4">
+                {% if reply.reply_accept %}
+                <span class="icon"><i class="fa fa-check"></i></span>&ensp;<i><span style="color: forestgreen;">Принят</span></i>
+                {% else %}
+                <span class="icon"><i class="fa fa-clock-o"></i></span>&ensp;<i><span style="color: orangered;">На рассмотрении</span></i>
+                {% endif %}
+                </font>
+            </td>
+        </tr>
+    </table>
+<table style="width: 1350px;">
+    <tr>
+        <td align="start">
+            <i><font size="4">
+                &nbsp;<span style="color: black;">{{ reply.reply_text }}</span>
+            </font></i>
+        </td>
+    </tr>
+</table>
+</ul>
+</div>
+<table style="margin-top: 20px" width="100%" border="0">
+    <tr>
+        <td align="left">
+        <a href="{% url 'post_replies_list' post.id %}" class="btn btn btn-warning btn-sm"><span class="icon"><i class="fa fa-comments"></i></span>&nbsp;Все отклики на  объявление № {{ post.id }}</a>&nbsp;
+        {% if post.author == request.user and not reply.reply_accept %}
+        <a href="{% url 'reply_accept' reply.id %}" class="btn btn btn-success btn-sm"><span class="icon"><i class="fa fa-check-square-o"></i></span>&nbsp;Принять отклик</a>
+        <a href="{% url 'reply_delete' reply.id %}" class="btn btn btn-danger btn-sm"><span class="icon"><i class="fa fa-trash-o"></i></span>&nbsp;Удалить отклик</a>
+        {% endif %}
+        </td>
+    </tr>
+</table>
+{% endblock content %}

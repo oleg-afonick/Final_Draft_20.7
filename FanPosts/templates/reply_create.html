@@ -1,0 +1,39 @@
+{% extends 'default.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+<h3 style="margin-top: 20px">Создание отклика на объявление № <span style="color: orangered;">{{ post.id }}</span></h3>
+<table width="100%" border="0" style="margin-top: 20px">
+    <tr>
+        <td align="left">
+            <h5><i><u>Информация об объявлении:</u></i></h5>
+            <font size="4">
+            <i><b>Автор:</b> {{ post.author }}</i>
+            <br>
+            <i><b>Дата:</b> {{ post.date_creation }}</i>
+            <br>
+            <i><b>Заголовок:</b> {{ post }}</i>
+            </font>
+<!--            <br>-->
+<!--            <i><b>Содержание:</b> {{ post.post_content|safe }}</i>-->
+            <br><br>
+            <a href="{% url 'post_list' %}" class="btn btn btn-outline-primary btn-sm"><span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлениям</a>
+            <a href="{% url 'post_detail' post.id %}" class="btn btn btn-outline-success btn-sm"><span class="icon"><i class="fa fa-undo"></i></span>&nbsp;К объявлению № {{ post.id }}</a>
+            <a href="{% url 'post_replies_list' post.id %}" class="btn btn btn-outline-danger btn-sm"><span class="icon"><i class="fa fa-comments-o"></i></span>&nbsp;К откликам</a>
+        </td>
+    </tr>
+</table>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <input class="btn btn-primary btn-sm" type="submit" value="Сохранить"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

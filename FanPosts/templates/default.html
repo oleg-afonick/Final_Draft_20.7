@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no justify-content-between"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Bulletin board</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400">
+</head>
+<body style="background-color: #ecf0f3; margin: 32px">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container" style="width: 800px">
+        <a class="navbar-brand" href="/"><span style="color: #039BE5; ">Bulletin board</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Главная</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'post_list' %}">Все объявления</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'post_create' %}">Создать объявление</a>
+                </li>
+                <li class="nav-item active">
+                    {% if request.user.is_superuser %}
+                    <a class="nav-link" href="/admin/">Панель администратора</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container" style="width: 450px">
+    <div class="navbar-collapse collapse" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                 &ensp;
+                </li>
+                <li class="nav-item active">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link"><span style="color: orangered;">{{ request.user.username }}</span></a>
+                    {% endif %}
+                </li>
+                <li class="nav-item active">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
+                    {% else %}
+                    <a class="nav-link" href='{% url "login" %}'>Вход</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item active">
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link" href='{% url "signup" %}'>Регистрация</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item active">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href='{% url "logout" %}'>Выход</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center flexContainer" style="background-color: rgba(0, 0, 0, 0.0);" >
+            <br>
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
