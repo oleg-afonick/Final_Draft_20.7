@@ -48,10 +48,10 @@ class GetCode(CreateView):
 
     def post(self, request, *args, **kwargs):
         if 'code' in request.POST:
-            user = request.path.split('/')
-            if OneTimeCode.objects.filter(code=request.POST['code'], user=user[-1]).exists():
-                User.objects.filter(username=user[-1]).update(is_active=True)
-                OneTimeCode.objects.filter(code=request.POST['code'], user=user[-1]).delete()
+            user = request.path.split('/')[-1]
+            if OneTimeCode.objects.filter(code=request.POST['code'], user=user).exists():
+                User.objects.filter(username=user).update(is_active=True)
+                OneTimeCode.objects.filter(code=request.POST['code'], user=user).delete()
             else:
                 return render(self.request, 'sign/invalid_code.html')
         return redirect('login')

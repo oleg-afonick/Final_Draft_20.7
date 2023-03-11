@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'ckeditor_skins',
-    # 'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -107,8 +106,11 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
-APSCHEDULER_RUN_NOW_TIMEOUT = 25
+CELERY_BROKER_URL = 'redis://:4G2EJ2wcK8RNeAK9Lg5czydp02Jfapxm@redis-18585.c1.asia-northeast1-1.gce.cloud.redislabs.com:18585'
+CELERY_RESULT_BACKEND = 'redis://:4G2EJ2wcK8RNeAK9Lg5czydp02Jfapxm@redis-18585.c1.asia-northeast1-1.gce.cloud.redislabs.com:18585'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

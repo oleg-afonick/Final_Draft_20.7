@@ -19,6 +19,7 @@ from board import views
 
 urlpatterns = [
     path('', views.home),
+    path('main/', views.main),
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

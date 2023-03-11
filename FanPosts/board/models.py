@@ -22,13 +22,6 @@ class Post(models.Model):
     def __str__(self):
         return self.post_title
 
-    def get_replies_post(self):
-        replies = []
-        replies_post = Reply.objects.filter(post_id=self.pk)
-        for reply in replies_post:
-            replies.append(reply.text)
-        return replies
-
     def get_absolute_url(self):
         return reverse('post_detail', args=[str(self.id)])
 
@@ -39,17 +32,6 @@ class Reply(models.Model):
     reply_text = models.TextField()
     date_creation = models.DateTimeField(auto_now_add=True)
     reply_accept = models.BooleanField(default=False)
-
-    def get_posts_reply(self):
-        posts = []
-        posts_reply = Post.objects.filter(pk=self.post_id)
-        for post in posts_reply:
-            posts.append(post.post_title)
-        return posts
-
-    def get_category(self):
-        category = Post.objects.get(pk=self.post_id).post_category
-        return category
 
     def __str__(self):
         return f'{self.user} ({self.reply_text[:30]}...)'

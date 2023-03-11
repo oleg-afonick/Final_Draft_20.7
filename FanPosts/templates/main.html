@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{% load static %}
+Main
+{% endblock title %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}"/>
+{% for cat in categories %}
+<a style="margin-top: 20px" class="btn btn-dark" href="{% url 'category_list' cat.id %}">{{ cat }}</a>
+{% endfor %}
+<img src="https://bumper-stickers.ru/48488-thickbox_default/wow.jpg" alt="" width="800" height="800">
+{% endblock content %}

@@ -45,7 +45,7 @@
                 <span class="icon">
                     <i class="fa fa-calendar"></i></span>&ensp;<i>{{ repl.date_creation }}</i>
                 <br>
-                <span class="icon"><i class="fa fa-flag"></i></span>&ensp;<i><a href="{% url 'category_list' repl.get_category.id %}" style="text-decoration: none;">{{ repl.get_category }}</a></i>
+                <span class="icon"><i class="fa fa-flag"></i></span>&ensp;<i><a href="{% url 'category_list' repl.post.post_category.id %}" style="text-decoration: none;">{{ repl.post.post_category }}</a></i>
                 <br><br>
                 <font size="4">
                 <span class="icon"><i class="fa fa-comment"></i></span>&ensp;<span style="color: black;"><i>

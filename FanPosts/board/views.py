@@ -8,10 +8,17 @@ from .models import *
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from .forms import PostForm, ReplyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .tasks import send_email_task
 
 
 def home(request):
     return render(request, 'home.html')
+
+
+def main(request):
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, 'main.html', context=context)
 
 
 class PostsList(ListView):
@@ -51,6 +58,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
         if self.request.method == 'POST':
             form.instance.author = self.request.user
         post.save()
+        send_email_task.delay(post.pk)
         return super().form_valid(form)
 
 
@@ -122,7 +130,7 @@ def subscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
     category.subscribers.add(user)
-    return redirect(f'/board/ad/categories/{category.pk}')
+    return redirect(f'/board/ads/category/{category.pk}')
 
 
 @login_required
@@ -130,7 +138,7 @@ def unsubscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
     category.subscribers.remove(user)
-    return redirect(f'/board/ad/categories/{category.pk}')
+    return redirect(f'/board/ads/category/{category.pk}')
 
 
 class ReplyCreate(LoginRequiredMixin, CreateView):
